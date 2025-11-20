@@ -17,7 +17,17 @@ mongoose
 
 const app = express();
 
-app.use(cors());
+app.use(
+	cors({
+		origin: [
+			"https://task-manager-aaik.vercel.app",
+			"http://localhost:5000",
+		],
+		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+		credentials: true,
+	})
+);
 app.use(express.json());
 app.get("/" ,(req ,res) => res.send("API is running"))
 // Routes
