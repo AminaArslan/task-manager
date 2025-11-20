@@ -1,0 +1,10 @@
+# Node modules
+backend/node_modules/
+frontend-side/node_modules/
+
+# Env files
+backend/.env
+frontend-side/.env.local
+
+# Next.js build
+frontend-side/.next
