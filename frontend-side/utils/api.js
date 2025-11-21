@@ -1,9 +1,9 @@
-const API_URL = `${import.meta.env.NEXT_PUBLIC_API_URL}/api/boards`;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // ---- Boards ----
 export const fetchBoards = async () => {
   try {
-const res = await fetch(`${API_URL}`);
+const res = await fetch(`${API_URL}/api/boards`);
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch boards");
@@ -17,7 +17,7 @@ const res = await fetch(`${API_URL}`);
 
 export const createBoard = async (boardData) => {
   try {
-    const res = await fetch(`${API_URL}`, {
+    const res = await fetch(`${API_URL}/api/boards`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(boardData), // pass object {name, description}
