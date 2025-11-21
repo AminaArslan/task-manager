@@ -1,6 +1,5 @@
 import express from "express";
-// import Board from "../../models/board.js";
-import Board from "../../models/board"
+import Board from "../../models/board.js";
 const router = express.Router();
 
 // GET all boards
