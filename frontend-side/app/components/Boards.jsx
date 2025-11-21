@@ -12,7 +12,7 @@ const Boards = () => {
 
   const fetchBoards = async () => {
     try {
-      const res = await axios.get(`${API_URL}/boards`);
+      const res = await axios.get(`${API_URL}/api/boards`);
       setBoards(res.data);
     } catch (err) {
       console.error(err);
@@ -34,17 +34,18 @@ const Boards = () => {
     });
   };
 
-  const deleteBoard = async (id) => {
-    if (!confirm("Are you sure you want to delete this board?")) return;
+ const deleteBoard = async (id) => {
+  if (!confirm("Are you sure you want to delete this board?")) return;
 
-    try {
-      await axios.delete(`${API_URL}/boards/${id}`);
-      setBoards(boards.filter((b) => b._id !== id));
-    } catch (err) {
-      console.error(err);
-      alert("Error deleting board");
-    }
-  };
+  try {
+    console.log("DELETE URL =>", `${API_URL}/api/boards/${id}`);
+    await axios.delete(`${API_URL}/api/boards/${id}`);
+    setBoards(boards.filter((b) => b._id !== id));
+  } catch (err) {
+    console.error(err);
+    alert("Error deleting board");
+  }
+};
 
   return (
     <div className="p-4">

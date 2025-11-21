@@ -4,7 +4,7 @@ frontend-side/node_modules/
 
 # Env files
 backend/.env
-frontend-side/.env.local
+frontend-side/.env
 
 # Next.js build
 frontend-side/.next

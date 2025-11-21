@@ -17,19 +17,26 @@ mongoose
 
 const app = express();
 
+// CORS setup
 app.use(
-	cors({
-		origin: [
-			"https://task-manager-aaik.vercel.app",
-			"http://localhost:5000",
-		],
-		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-		credentials: true,
-	})
+  cors({
+    origin: [
+      "http://localhost:3000", // local frontend
+      "https://task-manager-aaik.vercel.app", // production frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
 );
+
 app.use(express.json());
-app.get("/" ,(req ,res) => res.send("API is running"))
+
+// Handle preflight requests (important for PUT/POST/DELETE)
+// app.options("*", cors());
+
+app.get("/", (req, res) => res.send("API is running"));
+
 // Routes
 app.use("/api/boards", boardsRouter);
 app.use("/api/tasks", tasksRouter);

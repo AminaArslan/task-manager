@@ -3,7 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 // ---- Boards ----
 export const fetchBoards = async () => {
   try {
-    const res = await fetch(`${API_URL}/boards`);
+const res = await fetch(`${API_URL}/api/boards`);
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch boards");
@@ -17,7 +17,7 @@ export const fetchBoards = async () => {
 
 export const createBoard = async (boardData) => {
   try {
-    const res = await fetch(`${API_URL}/boards`, {
+    const res = await fetch(`${API_URL}/api/boards`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(boardData), // pass object {name, description}
@@ -37,7 +37,7 @@ export const createBoard = async (boardData) => {
 
 export const deleteBoard = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/boards/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/api/boards/${id}`, { method: "DELETE" });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to delete board");
@@ -50,7 +50,7 @@ export const deleteBoard = async (id) => {
 // ---- Tasks ----
 export const fetchTasks = async (boardId) => {
   try {
-    const res = await fetch(`${API_URL}/tasks?boardId=${boardId}`);
+    const res = await fetch(`${API_URL}/api/tasks?boardId=${boardId}`);
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch tasks");
@@ -64,7 +64,7 @@ export const fetchTasks = async (boardId) => {
 
 export const createTask = async (task) => {
   try {
-    const res = await fetch(`${API_URL}/tasks`, {
+    const res = await fetch(`${API_URL}/api/tasks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task),
@@ -82,7 +82,7 @@ export const createTask = async (task) => {
 
 export const updateTask = async (id, data) => {
   try {
-    const res = await fetch(`${API_URL}/tasks/${id}`, {
+    const res = await fetch(`${API_URL}/api/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -100,7 +100,7 @@ export const updateTask = async (id, data) => {
 
 export const deleteTask = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/api/tasks/${id}`, { method: "DELETE" });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to delete task");

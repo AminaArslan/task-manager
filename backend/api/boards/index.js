@@ -7,9 +7,20 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const boards = await Board.find({});
-    return res.status(200).json(boards);
+    res.status(200).json(boards);
   } catch (error) {
-    return res.status(500).json({ error: "Failed to fetch boards" });
+    res.status(500).json({ error: "Failed to fetch boards" });
+  }
+});
+
+// GET single board
+router.get("/:boardId", async (req, res) => {
+  try {
+    const board = await Board.findById(req.params.boardId);
+    if (!board) return res.status(404).json({ error: "Board not found" });
+    res.status(200).json(board);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch board" });
   }
 });
 
@@ -17,9 +28,31 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const board = await Board.create(req.body);
-    return res.status(201).json(board);
+    res.status(201).json(board);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// PUT update a board
+router.put("/:boardId", async (req, res) => {
+  try {
+    const updatedBoard = await Board.findByIdAndUpdate(req.params.boardId, req.body, { new: true });
+    if (!updatedBoard) return res.status(404).json({ error: "Board not found" });
+    res.status(200).json(updatedBoard);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// DELETE a board
+router.delete("/:boardId", async (req, res) => {
+  try {
+    const deleted = await Board.findByIdAndDelete(req.params.boardId);
+    if (!deleted) return res.status(404).json({ error: "Board not found" });
+    res.status(200).json({ message: "Board deleted" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete board" });
   }
 });
 
