@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-// Import your routers from api folder
+// Import  routers from api folder
 import boardsRouter from "./api/boards/index.js";
 import tasksRouter from "./api/tasks/index.js";
 
@@ -31,7 +31,7 @@ app.use(
 );
 
 app.use(express.json());
-
+// app.options("*", cors()); // allow preflight for all routes
 app.get("/", (req, res) => res.send("API is running"));
 
 // Routes

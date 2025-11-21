@@ -1,19 +1,33 @@
+// dashboard
 "use client";
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import NewBoardForm from "./NewBoardForm";
-
 const Boards = () => {
   const [boards, setBoards] = useState([]);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+  // ✅ helper function for proper word capitalization
+  const capitalizeWords = (str = "") =>
+    str
+      .split(" ")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+
   const fetchBoards = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/boards`);
-      setBoards(res.data);
+
+      const sortedBoards = res.data
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .map(board => ({
+          ...board,
+          name: capitalizeWords(board.name) // ✅ RELOAD PAR BHI FIX
+        }));
+
+      setBoards(sortedBoards);
     } catch (err) {
       console.error(err);
       alert("Error fetching boards");
@@ -25,8 +39,13 @@ const Boards = () => {
   }, []);
 
   const addBoard = (newBoard) => {
+    const formattedBoard = {
+      ...newBoard,
+      name: capitalizeWords(newBoard.name) // ✅ YAHAN BHI FIX
+    };
+
     setBoards((prevBoards) => {
-      const allBoards = [...prevBoards, newBoard];
+      const allBoards = [formattedBoard, ...prevBoards];
       const uniqueBoards = Array.from(
         new Map(allBoards.map((b) => [b._id, b])).values()
       );
@@ -46,37 +65,42 @@ const Boards = () => {
     alert("Error deleting board");
   }
 };
-
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Task Management</h1>
+return (
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold p-3 rounded-xl text-center mb-6 text-white bg-purple-500 ">Dashboard</h1>
 
       {/* Form to create new board */}
-      <NewBoardForm onBoardCreated={addBoard} />
+      <div className="mb-6 ">
+        <NewBoardForm onBoardCreated={addBoard} />
+      </div>
 
       {/* Boards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {boards.map((board) => (
-          <div key={board._id} className="relative">
+          <div
+            key={board._id}
+            className="bg-white rounded-xl shadow-md hover:shadow-xl transition relative"
+          >
             {/* Board name */}
             <Link href={`/boards/${board._id}`}>
-              <div className="border p-4 rounded shadow hover:shadow-lg transition cursor-pointer">
-                <h2 className="font-semibold text-lg">{board.name}</h2>
+              <div className="p-6 cursor-pointer hover:bg-gray-50 rounded-t-xl">
+                <h2 className="text-xl font-semibold text-purple-500">{board.name}</h2>
               </div>
             </Link>
 
-            {/* Delete button */}
-            <button
-              onClick={() => deleteBoard(board._id)}
-              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-            >
-              Delete
-            </button>
+            {/* Footer for actions */}
+            <div className="flex justify-end p-3 border-t border-gray-200">
+              <button
+                onClick={() => deleteBoard(board._id)}
+                className="bg-purple-500 text-white px-2 rounded-sm font-medium"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
 };
-
 export default Boards;

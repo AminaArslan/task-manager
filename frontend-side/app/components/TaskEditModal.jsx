@@ -11,6 +11,33 @@ const TaskEditModal = ({ task, onClose, onTaskUpdated }) => {
   const [tags, setTags] = useState("");
   const [column, setColumn] = useState("Todo");
 
+  const getButtonColor = (col) => {
+  switch (col) {
+    case "Todo":
+      return "bg-cyan-500 hover:bg-cyan-600";
+    case "In Progress":
+      return "bg-lime-500 hover:bg-lime-600";
+    case "Done":
+      return "bg-orange-500 hover:bg-orange-600";
+    default:
+      return "bg-gray-500 hover:bg-gray-600";
+  }
+};
+
+// for text colr
+const getAddColor = (col) => {
+  switch (col) {
+    case "Todo":
+        return "text-cyan-500 ";
+      case "In Progress":
+        return "text-lime-500 ";
+      case "Done":
+        return "text-orange-500";
+      default:
+        return "text-blue-500 ";
+  }
+};
+
   useEffect(() => {
     if (!task) return;
 
@@ -46,7 +73,7 @@ const TaskEditModal = ({ task, onClose, onTaskUpdated }) => {
   if (!task) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black/70 bg-opacity-40 flex justify-center items-center">
       <div className="bg-white p-4 rounded w-96 relative">
         <button
           onClick={onClose}
@@ -54,7 +81,7 @@ const TaskEditModal = ({ task, onClose, onTaskUpdated }) => {
         >
           X
         </button>
-        <h2 className="text-xl font-bold mb-2">Edit Task</h2>
+      <h2 className={`text-xl font-bold mb-2 ${getAddColor(column)}`}>Edit Task</h2>
         <form onSubmit={handleUpdate} className="space-y-2">
           <input
             type="text"
@@ -101,12 +128,12 @@ const TaskEditModal = ({ task, onClose, onTaskUpdated }) => {
             <option value="In Progress">In Progress</option>
             <option value="Done">Done</option>
           </select>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full"
-          >
-            Update Task
-          </button>
+        <button
+  type="submit"
+  className={`text-white p-2 rounded w-full ${getButtonColor(column)}`}
+>
+  Update Task
+</button>
         </form>
       </div>
     </div>

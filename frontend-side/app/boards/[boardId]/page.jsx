@@ -1,17 +1,31 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import NewTaskForm from "@/app/components/NewTaskForm";
 import TaskEditModal from "@/app/components/TaskEditModal";
-import {fetchTasks, updateTask, deleteTask  } from "@/utils/api";
-
+import { fetchTasks, updateTask, deleteTask } from "@/utils/api";
 
 export default function BoardDetails() {
+  const [boardName, setBoardName] = useState("");
   const { boardId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [addingTaskColumn, setAddingTaskColumn] = useState(null);
+
+  // Add board name
+  const loadBoardName = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/boards/${boardId}`);
+      const data = await res.json();
+      setBoardName(data.name);
+    } catch (err) {
+      console.error("Error fetching board name:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (boardId) loadBoardName();
+  }, [boardId]);
 
   // 🔍 SEARCH + FILTER STATES
   const [searchText, setSearchText] = useState("");
@@ -19,6 +33,32 @@ export default function BoardDetails() {
   const [tagFilter, setTagFilter] = useState("");
 
   const columns = ["Todo", "In Progress", "Done"];
+
+  const getAddButtonColor = (col) => {
+    switch (col) {
+      case "Todo":
+        return "bg-cyan-500 ";
+      case "In Progress":
+        return "bg-lime-500 ";
+      case "Done":
+        return "bg-orange-500";
+      default:
+        return "bg-blue-500 ";
+    }
+  };
+  // for text colr
+  const getAddColor = (col) => {
+    switch (col) {
+      case "Todo":
+        return "text-cyan-500 ";
+      case "In Progress":
+        return "text-lime-500 ";
+      case "Done":
+        return "text-orange-500";
+      default:
+        return "text-blue-500 ";
+    }
+  };
 
   // Fetch tasks
   const loadTasks = async () => {
@@ -85,6 +125,11 @@ export default function BoardDetails() {
 
   return (
     <div className="p-4">
+      {/* Board Name */}
+      <h1 className="text-2xl font-semibold inline-block mb-6 text-white bg-purple-500 p-3 rounded-xl italic">
+        <span className="text-3xl font-bold not-italic ">Board Name: </span> {boardName || "Board"}
+      </h1>
+
       {/* 🔍 SEARCH + FILTER BAR */}
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <input
@@ -111,8 +156,22 @@ export default function BoardDetails() {
           onChange={(e) => setTagFilter(e.target.value)}
           className="border p-2 rounded"
         />
-      </div>
 
+        {/* Clear Filters Button */}
+        {(searchText || priorityFilter || tagFilter) && (
+          <button
+            onClick={() => {
+              setSearchText("");
+              setPriorityFilter("");
+              setTagFilter("");
+            }}
+            className="bg-purple-500 text-white px-3 py-2 rounded hover:bg-purple-700"
+          >
+            Clear Filters
+          </button>
+        )}
+      </div>
+      {/* tasks-colums */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {columns.map((col) => (
           <div
@@ -122,20 +181,22 @@ export default function BoardDetails() {
               const taskId = e.dataTransfer.getData("taskId");
               handleDragEnd(taskId, col);
             }}
-            className="bg-gray-100 p-2 rounded min-h-[100px]"
+            className={`p-2 rounded  ${getAddButtonColor(col)}`}
           >
-            <h2 className="text-lg font-bold mb-2">{col}</h2>
+            <div className="flex justify-between items-center mb-3">
+              <h2 className=" text-white text-2xl font-bold mb-2">{col}</h2>
 
-            {/* Add Task Button */}
-            <div className="flex gap-2 mb-2">
-              <button
-                className="bg-blue-500 text-white px-3 py-1 rounded flex-1"
-                onClick={() =>
-                  setAddingTaskColumn(addingTaskColumn === col ? null : col)
-                }
-              >
-                + Add Task
-              </button>
+              {/* Add Task Button */}
+              <div className="flex gap-2 mb-2">
+                <button
+                  className={`text-white text-base border-2 border-white px-3 py-1 rounded flex-1 ${getAddButtonColor(col)}`}
+                  onClick={() =>
+                    setAddingTaskColumn(addingTaskColumn === col ? null : col)
+                  }
+                >
+                  + Add Task
+                </button>
+              </div>
             </div>
 
             {addingTaskColumn === col && (
@@ -143,12 +204,16 @@ export default function BoardDetails() {
                 boardId={boardId}
                 column={col}
                 onTaskCreated={(newTask) =>
-                  setTasks((prev) => [...prev, newTask])
+                  setTasks((prev) => {
+                    // Agar task id already hai to skip
+                    if (prev.some((t) => t._id === newTask._id)) return prev;
+                    return [newTask, ...prev];
+                  })
                 }
                 onClose={() => setAddingTaskColumn(null)}
               />
             )}
-
+            
             {/* Filtered Tasks */}
             {filteredTasks
               .filter((t) => t.column === col)
@@ -163,7 +228,7 @@ export default function BoardDetails() {
                   className="bg-white p-2 rounded shadow cursor-move mb-2 flex flex-col justify-between"
                 >
                   <div>
-                    <h3 className="font-semibold text-base mb-1 wrap-break-words">
+                    <h3 className={`font-semibold text-lg italic mb-1 wrap-break-words ${getAddColor(col)}`}>
                       {task.title}
                     </h3>
 
@@ -204,7 +269,7 @@ export default function BoardDetails() {
                         e.stopPropagation();
                         handleDeleteTask(task._id);
                       }}
-                      className="text-red-500 hover:text-red-700 cursor-pointer px-2 py-1 rounded border border-red-300 hover:border-red-500"
+                      className={`text-white cursor-pointer px-2 py-1 rounded border ${getAddButtonColor(col)}`}
                     >
                       Delete
                     </button>

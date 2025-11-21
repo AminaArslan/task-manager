@@ -1,5 +1,5 @@
+// craetaed board
 "use client";
-
 import { createBoard } from "@/utils/api";
 import { useState } from "react";
 
@@ -34,7 +34,7 @@ const NewBoardForm = ({ onBoardCreated }) => {
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+        className="bg-purple-500 w-40 text-white px-4 py-2 rounded cursor-pointer"
       >
         Create Board +
       </button>

@@ -1,5 +1,5 @@
+// for drag and
 "use client";
-
 import TaskCard from "./TaskCard";
 
 export default function Column({ title, tasks, onDragEnd, setSelectedTask }) {
