@@ -3,8 +3,8 @@ backend/node_modules/
 frontend-side/node_modules/
 
 # Env files
-backend/.env
-frontend-side/.env
+# backend/.env
+# frontend-side/.env
 
 # Next.js build
 frontend-side/.next
