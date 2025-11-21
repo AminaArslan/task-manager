@@ -32,9 +32,6 @@ app.use(
 
 app.use(express.json());
 
-// Handle preflight requests (important for PUT/POST/DELETE)
-// app.options("*", cors());
-
 app.get("/", (req, res) => res.send("API is running"));
 
 // Routes
