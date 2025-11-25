@@ -51,36 +51,17 @@ export const deleteBoard = async (id) => {
 // ---- Tasks ----
 export const fetchTasks = async (boardId) => {
   try {
-    console.log("API_URL:", API_URL); // log API base URL
-    console.log("Fetching tasks for boardId:", boardId);
-
-    const url = `${API_URL}/api/tasks?boardId=${boardId}`;
-    console.log("Full fetch URL:", url);
-
-    const res = await fetch(url);
-
-    console.log("Response status:", res.status);
-
+    const res = await fetch(`${API_URL}/api/tasks?boardId=${boardId}`);
     if (!res.ok) {
-      let errMsg = "Failed to fetch tasks";
-      try {
-        const err = await res.json();
-        errMsg = err.error || errMsg;
-      } catch {
-        // if response is not JSON
-      }
-      throw new Error(errMsg);
+      const err = await res.json();
+      throw new Error(err.error || "Failed to fetch tasks");
     }
-
-    const data = await res.json();
-    console.log("Tasks fetched:", data);
-    return data;
+    return res.json();
   } catch (err) {
     console.error("fetchTasks error:", err.message);
     return [];
   }
 };
-
 
 export const createTask = async (task) => {
   try {
