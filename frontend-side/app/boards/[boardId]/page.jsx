@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import NewTaskForm from "@/app/components/NewTaskForm";
-import TaskEditModal from "@/app/components/TaskEditModal";
 import { fetchTasks, updateTask, deleteTask } from "@/utils/api";
+import NewTaskForm from "@/components/NewTaskForm";
+import TaskEditModal from "@/components/TaskEditModal";
+
 
 export default function BoardDetails() {
   const [boardName, setBoardName] = useState("");

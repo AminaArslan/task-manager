@@ -4,7 +4,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const fetchBoards = async () => {
   try {
 const res = await fetch(`${API_URL}/api/boards`);
-
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch boards");
