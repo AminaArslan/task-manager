@@ -51,8 +51,7 @@ export const deleteBoard = async (id) => {
 // ---- Tasks ----
 export const fetchTasks = async (boardId) => {
   try {
-    const res =await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks?boardId=${boardId}`);
-
+    const res = await fetch(`${API_URL}/api/tasks?boardId=${boardId}`);
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch tasks");
