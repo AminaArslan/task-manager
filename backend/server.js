@@ -15,20 +15,32 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+const express = require('express');
 const app = express();
 
+
+// NEXT
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://task-manager-umber-mu.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
+
 // CORS setup
-app.use(
-  cors({
-    origin: [
-      // "http://localhost:3000", // local frontend
-      "https://task-manager-umber-mu.vercel.app", // production frontend
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       // "http://localhost:3000", // local frontend
+//       "https://task-manager-umber-mu.vercel.app", // production frontend
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true,
+//   })
+// );
 
 app.use(express.json());
 // app.options("*", cors()); // allow preflight for all routes
