@@ -61,15 +61,15 @@ export default function BoardDetails() {
   };
 
   // Fetch tasks
-  const loadTasks = async () => {
-    try {
-      const data = await fetchTasks(boardId);
-      setTasks(data);
-    } catch (err) {
-      console.error("Error fetching tasks:", err);
-      alert("Error fetching tasks");
-    }
-  };
+ const loadTasks = async () => {
+  try {
+    const data = await fetchTasks(boardId);
+    console.log("Fetched tasks:", data); // see what you get
+    setTasks(data);
+  } catch (err) {
+    console.error("Error fetching tasks:", err);
+  }
+};
 
   useEffect(() => {
     loadTasks();
