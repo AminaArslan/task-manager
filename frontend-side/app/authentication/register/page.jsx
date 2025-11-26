@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/utils/api"; // optional if you export API_URL
+
 
 export default function Register() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

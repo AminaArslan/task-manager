@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   try {
     const { boardId } = req.query;
     const filter = { user: req.user._id };
-    if (boardId) filter.board = boardId;
+    if (boardId) filter.boardId = boardId;
 
     const tasks = await Task.find(filter);
     res.status(200).json(tasks);

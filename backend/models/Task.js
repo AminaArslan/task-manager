@@ -7,7 +7,8 @@ const TaskSchema = new mongoose.Schema({
   dueDate: Date,
   tags: [String],
   column: { type: String, enum: ["Todo", "In Progress", "Done"], default: "Todo" },
-  boardId: { type: mongoose.Schema.Types.ObjectId, ref: "Board", required: true }
+  boardId: { type: mongoose.Schema.Types.ObjectId, ref: "Board", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 }, { timestamps: true });
 
 export default mongoose.models.Task || mongoose.model("Task", TaskSchema);
