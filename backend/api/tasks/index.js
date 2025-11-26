@@ -1,23 +1,36 @@
 import express from "express";
 import Task from "../../models/Task.js";
+import protect from "../../middleware/auth.js";
 
 const router = express.Router();
 
-// GET all tasks or by boardId
+// Protect all routes - user must be authenticated
+router.use(protect);
+
+/**
+ * @route   GET /api/tasks
+ * @desc    Get all tasks for logged-in user (optional filter by boardId)
+ */
 router.get("/", async (req, res) => {
   try {
     const { boardId } = req.query;
-    const tasks = boardId ? await Task.find({ boardId }) : await Task.find({});
+    const filter = { user: req.user._id };
+    if (boardId) filter.board = boardId;
+
+    const tasks = await Task.find(filter);
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch tasks" });
   }
 });
 
-// GET single task by ID
+/**
+ * @route   GET /api/tasks/:taskId
+ * @desc    Get a single task by ID (only if belongs to logged-in user)
+ */
 router.get("/:taskId", async (req, res) => {
   try {
-    const task = await Task.findById(req.params.taskId);
+    const task = await Task.findOne({ _id: req.params.taskId, user: req.user._id });
     if (!task) return res.status(404).json({ error: "Task not found" });
     res.status(200).json(task);
   } catch (error) {
@@ -25,22 +38,30 @@ router.get("/:taskId", async (req, res) => {
   }
 });
 
-// POST a new task
+/**
+ * @route   POST /api/tasks
+ * @desc    Create a new task for the logged-in user
+ */
 router.post("/", async (req, res) => {
   try {
-    const task = await Task.create(req.body);
+    const task = await Task.create({ ...req.body, user: req.user._id });
     res.status(201).json(task);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-// PUT update a task by ID
+/**
+ * @route   PUT /api/tasks/:taskId
+ * @desc    Update a task by ID (only if belongs to logged-in user)
+ */
 router.put("/:taskId", async (req, res) => {
   try {
-    const updatedTask = await Task.findByIdAndUpdate(req.params.taskId, req.body, {
-      new: true,
-    });
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: req.params.taskId, user: req.user._id },
+      req.body,
+      { new: true }
+    );
     if (!updatedTask) return res.status(404).json({ error: "Task not found" });
     res.status(200).json(updatedTask);
   } catch (error) {
@@ -48,12 +69,15 @@ router.put("/:taskId", async (req, res) => {
   }
 });
 
-// DELETE a task by ID
+/**
+ * @route   DELETE /api/tasks/:taskId
+ * @desc    Delete a task by ID (only if belongs to logged-in user)
+ */
 router.delete("/:taskId", async (req, res) => {
   try {
-    const deletedTask = await Task.findByIdAndDelete(req.params.taskId);
+    const deletedTask = await Task.findOneAndDelete({ _id: req.params.taskId, user: req.user._id });
     if (!deletedTask) return res.status(404).json({ error: "Task not found" });
-    res.status(200).json({ message: "Task deleted" });
+    res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

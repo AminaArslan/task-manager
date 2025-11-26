@@ -1,9 +1,17 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+
+// ✅ Automatically attach token from localStorage
+const getAuthHeaders = () => {
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+
 // ---- Boards ----
 export const fetchBoards = async () => {
   try {
-const res = await fetch(`${API_URL}/api/boards`);
+    const res = await fetch(`${API_URL}/api/boards`, { headers: getAuthHeaders() });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch boards");
@@ -19,15 +27,13 @@ export const createBoard = async (boardData) => {
   try {
     const res = await fetch(`${API_URL}/api/boards`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(boardData), // pass object {name, description}
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify(boardData),
     });
-
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to create board");
     }
-
     return res.json();
   } catch (err) {
     console.error("createBoard error:", err.message);
@@ -37,7 +43,10 @@ export const createBoard = async (boardData) => {
 
 export const deleteBoard = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/api/boards/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/api/boards/${id}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to delete board");
@@ -50,7 +59,7 @@ export const deleteBoard = async (id) => {
 // ---- Tasks ----
 export const fetchTasks = async (boardId) => {
   try {
-    const res = await fetch(`${API_URL}/api/tasks?boardId=${boardId}`);
+    const res = await fetch(`${API_URL}/api/tasks?boardId=${boardId}`, { headers: getAuthHeaders() });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to fetch tasks");
@@ -66,7 +75,7 @@ export const createTask = async (task) => {
   try {
     const res = await fetch(`${API_URL}/api/tasks`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify(task),
     });
     if (!res.ok) {
@@ -84,7 +93,7 @@ export const updateTask = async (id, data) => {
   try {
     const res = await fetch(`${API_URL}/api/tasks/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify(data),
     });
     if (!res.ok) {
@@ -98,9 +107,12 @@ export const updateTask = async (id, data) => {
   }
 };
 
-export const deleteTask = async (id) => {
+export const deleteTask = async (id, ) => {
   try {
-    const res = await fetch(`${API_URL}/api/tasks/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_URL}/api/tasks/${id}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.error || "Failed to delete task");
