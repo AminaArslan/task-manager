@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-
+import authRouter from "./api/auth/index.js";
 import boardsRouter from "./api/boards/index.js";
 import tasksRouter from "./api/tasks/index.js";
 
@@ -31,6 +31,7 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("API is running"));
 
 // Routes
+app.use("/api/auth", authRouter);
 app.use("/api/boards", boardsRouter);
 app.use("/api/tasks", tasksRouter);
 
