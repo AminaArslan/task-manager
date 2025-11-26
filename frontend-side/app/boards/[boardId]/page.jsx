@@ -170,7 +170,7 @@ export default function BoardDetails() {
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-white text-2xl font-bold mb-2">{col}</h2>
               <button
-                className={`text-white text-base border-2 border-white px-3 py-1 rounded flex-1 ${getAddButtonColor(col)}`}
+                className={`text-white text-base border-2 border-white px-3 py-1 rounded ${getAddButtonColor(col)}`}
                 onClick={() => setAddingTaskColumn(addingTaskColumn === col ? null : col)}
               >
                 + Add Task

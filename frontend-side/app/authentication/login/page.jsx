@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Next 13 app router
-// import { toast } from "react-hot-toast"; // optional, for nicer alerts
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext"; // ✅ import context
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { login } = useAuth(); // ✅ get login function from context
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -22,15 +24,21 @@ export default function Login() {
 
       if (!res.ok) throw new Error(data.message || "Login failed");
 
-      // ✅ Store JWT
-      localStorage.setItem("token", data.token);
-
-      // ✅ Redirect to home/dashboard
-      router.push("/");
-
+      // ✅ Update AuthContext and localStorage
+      login(
+        { _id: data._id, name: data.name, email: data.email }, // user
+        data.token // token
+      );
+     
+    // ✅ Clear form inputs
+    setEmail("");
+    setPassword("");
+    
+    alert("Login successful!");
+      router.push("/"); // ✅ redirect
     } catch (err) {
       console.error(err);
-      alert(err.message); // or toast.error(err.message)
+      alert(err.message);
     }
   };
 

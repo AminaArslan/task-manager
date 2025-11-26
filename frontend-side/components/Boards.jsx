@@ -19,10 +19,13 @@ const Boards = () => {
 
   // ✅ Redirect unauthenticated users
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) router.push("/authentication/login");
-   
-  }, [router]);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    router.push("/authentication/login");
+    return;
+  }
+  fetchBoards();
+}, [router]);
 
   // ✅ Fetch boards with JWT token
   const fetchBoards = async () => {
@@ -46,9 +49,9 @@ const Boards = () => {
     }
   };
 
-  useEffect(() => {
-    fetchBoards();
-  }, []);
+  // useEffect(() => {
+  //   fetchBoards();
+  // }, []);
 
   // ✅ Add new board to state
   const addBoard = (newBoard) => {
