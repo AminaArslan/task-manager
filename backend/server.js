@@ -19,7 +19,8 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://task-manager-umber-mu.vercel.app"
+    // "https://task-manager-umber-mu.vercel.app"
+    "https://task-manager-umber-mu.vercel.app/authentication/login"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
