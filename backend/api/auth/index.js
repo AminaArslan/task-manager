@@ -4,6 +4,20 @@ import User from "../../models/user.js";
 
 const router = express.Router();
 
+// ✅ Handle preflight for this router
+router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://task-manager-umber-mu.vercel.app");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
 // Generate JWT
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
