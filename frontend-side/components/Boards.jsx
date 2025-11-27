@@ -21,7 +21,7 @@ const Boards = () => {
   useEffect(() => {
   const token = localStorage.getItem("token");
   if (!token) {
-    router.push("/authentication/login");
+    router.push("/login");
     return;
   }
   fetchBoards();

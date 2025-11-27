@@ -28,13 +28,13 @@ export default function Header() {
           {!user ? (
             <>
               <Link
-                href="/authentication/login"
+                href="/login"
                 className="bg-white text-purple-500 px-3 py-1 rounded hover:bg-gray-100 transition font-medium"
               >
                 Login
               </Link>
               <Link
-                href="/authentication/register"
+                href="/register"
                 className="bg-white text-purple-500 px-3 py-1 rounded hover:bg-gray-100 transition font-medium"
               >
                 Signup
