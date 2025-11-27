@@ -87,7 +87,7 @@ const Boards = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold p-3 rounded-xl text-center mb-6 text-white bg-purple-500">
+      <h1 className="inline-block text-3xl font-bold p-3 rounded-xl text-center mb-6 text-white bg-purple-400">
         Dashboard
       </h1>
 
@@ -106,7 +106,7 @@ const Boards = () => {
             {/* Board name */}
             <Link href={`/boards/${board._id}`}>
               <div className="p-6 cursor-pointer hover:bg-gray-50 rounded-t-xl">
-                <h2 className="text-xl font-semibold text-purple-500">{board.name}</h2>
+                <h2 className="text-xl font-semibold text-purple-400">{board.name}</h2>
               </div>
             </Link>
 
@@ -114,7 +114,7 @@ const Boards = () => {
             <div className="flex justify-end p-3 border-t border-gray-200">
               <button
                 onClick={() => deleteBoard(board._id)}
-                className="bg-purple-500 text-white px-2 rounded-sm font-medium"
+                className="bg-purple-400 text-white px-2 rounded-sm font-medium"
               >
                 Delete
               </button>

@@ -117,7 +117,7 @@ export default function BoardDetails() {
   return (
     <div className="p-4">
       {/* Board Name */}
-      <h1 className="text-2xl font-semibold inline-block mb-6 text-white bg-purple-500 p-3 rounded-xl italic">
+      <h1 className="text-2xl font-semibold inline-block mb-6 text-white bg-purple-400 p-3 rounded-xl italic">
         <span className="text-3xl font-bold not-italic ">Board Name: </span> {boardName || "Board"}
       </h1>
 
@@ -150,7 +150,7 @@ export default function BoardDetails() {
         {(searchText || priorityFilter || tagFilter) && (
           <button
             onClick={() => { setSearchText(""); setPriorityFilter(""); setTagFilter(""); }}
-            className="bg-purple-500 text-white px-3 py-2 rounded hover:bg-purple-700"
+            className="bg-purple-400 text-white px-3 py-2 rounded hover:bg-purple-700"
           >
             Clear Filters
           </button>

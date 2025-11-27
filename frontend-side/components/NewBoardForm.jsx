@@ -34,7 +34,7 @@ const NewBoardForm = ({ onBoardCreated }) => {
       />
       <button
         type="submit"
-        className="bg-purple-500 w-40 text-white px-4 py-2 rounded cursor-pointer"
+        className="bg-purple-400 w-40 text-white px-4 py-2 rounded cursor-pointer"
       >
         Create Board +
       </button>
