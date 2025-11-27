@@ -7,6 +7,25 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+// ---- Single Board ----
+export const fetchSingleBoard = async (boardId) => {
+  try {
+    const res = await fetch(`${API_URL}/api/boards/${boardId}`, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Failed to fetch board");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.error("fetchSingleBoard error:", err.message);
+    return null;
+  }
+};
+
 
 // ---- Boards ----
 export const fetchBoards = async () => {

@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { fetchTasks, updateTask, deleteTask } from "@/utils/api";
+import { fetchTasks, updateTask, deleteTask, fetchSingleBoard } from "@/utils/api";
 import NewTaskForm from "@/components/NewTaskForm";
 import TaskEditModal from "@/components/TaskEditModal";
-import axios from "axios";
+
 
 export default function BoardDetails() {
   const { boardId } = useParams();
@@ -42,19 +42,18 @@ export default function BoardDetails() {
     }
   };
 
-  // 🔹 Load board name with JWT
-  const loadBoardName = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${API_URL}/api/boards/${boardId}`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
-      setBoardName(res.data.name);
-    } catch (err) {
-      console.error("Error fetching board name:", err);
-      alert("Failed to load board");
+  // 🔹 Load board 
+ const loadBoardName = async () => {
+  try {
+    const board = await fetchSingleBoard(boardId);
+    if (board) {
+      setBoardName(board.name);
     }
-  };
+  } catch (err) {
+    console.error("Error fetching board name:", err);
+    alert("Failed to load board");
+  }
+};
 
   // 🔹 Load tasks with JWT
   const loadTasks = async () => {
