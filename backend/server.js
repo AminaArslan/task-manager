@@ -26,6 +26,10 @@ app.use(cors({
   credentials: true
 }));
 
+// ✅ Handle preflight request
+app.options("*", cors());
+
+
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("API is running"));
