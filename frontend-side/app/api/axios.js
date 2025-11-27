@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL
+    ? process.env.NEXT_PUBLIC_API_URL + "/api"
+    : "http://localhost:5000/api",
 });
-
 // Attach JWT token to all requests
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
