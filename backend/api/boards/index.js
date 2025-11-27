@@ -1,5 +1,5 @@
 import express from "express";
-import Board from "../../models/Board.js";
+import Board from "../../models/board.js";
 import protect from "../../middleware/auth.js";
 
 const router = express.Router();
