@@ -35,5 +35,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/boards", boardsRouter);
 app.use("/api/tasks", tasksRouter);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+export default app;
