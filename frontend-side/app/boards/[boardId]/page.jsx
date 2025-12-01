@@ -116,8 +116,8 @@ export default function BoardDetails() {
   return (
     <div className="p-4">
       {/* Board Name */}
-      <h1 className="text-2xl font-semibold inline-block mb-6 text-white bg-purple-400 p-3 rounded-xl italic">
-        <span className="text-3xl font-bold not-italic ">Board Name: </span> {boardName || "Board"}
+      <h1 className="capitalize text-xl sm:text-2xl font-semibold inline-block mb-6 text-white bg-purple-400 p-3 rounded-xl italic">
+        <span className="sm:text-3xl text-2xl font-bold not-italic ">Board Name: </span> {boardName || "Board"}
       </h1>
 
       {/* Search & Filters */}
