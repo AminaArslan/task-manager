@@ -111,7 +111,7 @@ export default function Header() {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="absolute top-0 left-0 w-3/4 max-w-xs bg-purple-400 h-full p-6 shadow-lg flex flex-col space-y-6"
+            className="absolute top-0 left-0 w-4/5 max-w-xs bg-purple-400 h-full p-6 shadow-lg flex flex-col space-y-6"
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
           >
             {/* Close Button */}
