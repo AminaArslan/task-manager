@@ -45,19 +45,24 @@ export default function Login() {
   return (
     <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 p-6 border rounded shadow">
       <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+     <input
+  type="email"
+  name="email"
+  autoComplete="email"
+  className="border p-2 mb-2 w-full rounded"
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
       <input
-        className="border p-2 mb-2 w-full rounded"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        className="border p-2 mb-2 w-full rounded"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+  type="password"
+  name="password"
+  autoComplete="current-password"
+  className="border p-2 mb-2 w-full rounded"
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
       <button type="submit" className="bg-purple-500 text-white p-2 w-full rounded hover:bg-purple-700">
         Login
       </button>
