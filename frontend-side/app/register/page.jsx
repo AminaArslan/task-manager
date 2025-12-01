@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const {login} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +25,11 @@ export default function Register() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Registration failed");
 
-      // ✅ Store JWT
-      localStorage.setItem("token", data.token);
+      // ✅ Update AuthContext and localStorage
+      login(
+        { _id: data._id, name: data.name, email: data.email }, // user info
+        data.token // JWT token
+      );
 
       // ✅ Redirect to home/dashboard
       router.push("/");

@@ -9,7 +9,6 @@ import TaskEditModal from "@/components/TaskEditModal";
 export default function BoardDetails() {
   const { boardId } = useParams();
   const router = useRouter();
-
   const [boardName, setBoardName] = useState("");
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
