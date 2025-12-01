@@ -1,7 +1,6 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
-// ✅ Automatically attach token from localStorage
+//  Automatically attach token from localStorage
 const getAuthHeaders = () => {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   return token ? { Authorization: `Bearer ${token}` } : {};

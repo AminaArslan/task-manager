@@ -4,9 +4,6 @@ import User from "../../models/user.js";
 
 const router = express.Router();
 
-
-
-
 // Generate JWT
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });

@@ -6,17 +6,15 @@ import { useState } from "react";
 
 const NewBoardForm = ({ onBoardCreated }) => {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name) return;
 
-    const newBoard = await createBoard({ name, description });
+    const newBoard = await createBoard({ name});
     if (newBoard) {
       onBoardCreated(newBoard); // callback to update board list
       setName("");
-      setDescription("");
     } else {
       alert("Error creating board");
     }

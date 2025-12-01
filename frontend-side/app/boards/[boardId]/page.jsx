@@ -215,7 +215,7 @@ export default function BoardDetails() {
                     </div>
                   )}
                 </div>
-                <div className="flex items-end justify-center mt-2">
+                <div className="flex items-end justify-end mt-2">
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDeleteTask(task._id); }}
                     className={`text-white cursor-pointer px-2 py-1 rounded border ${getAddButtonColor(col)}`}

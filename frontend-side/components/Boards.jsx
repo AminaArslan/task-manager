@@ -48,11 +48,7 @@ const Boards = () => {
       alert("Error fetching boards");
     }
   };
-
-  // useEffect(() => {
-  //   fetchBoards();
-  // }, []);
-
+  
   // ✅ Add new board to state
   const addBoard = (newBoard) => {
     const formattedBoard = {
