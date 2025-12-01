@@ -90,7 +90,7 @@ export default function Header() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+       {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
             <svg className="w-6 h-6" fill="none" stroke="currentColor">
@@ -104,19 +104,76 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="md:hidden bg-purple-500 px-4 pb-4 space-y-2">
-          <Link href="/" className="block text-white hover:text-gray-200">Home</Link>
-          <Link href="/boards" className="block text-white hover:text-gray-200">Dashboard</Link>
-          {!user ? (
-            <>
-              <Link href="/login" className="block bg-white text-purple-500 px-4 py-2 rounded">Login</Link>
-              <Link href="/register" className="block bg-white text-purple-500 px-4 py-2 rounded">Signup</Link>
-            </>
-          ) : (
-            <button onClick={logout} className="block bg-white text-purple-500 px-4 py-2 rounded">Logout</button>
-          )}
+        <div
+          className="md:hidden fixed inset-0 bg-black/30 z-40"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="absolute top-0 left-0 w-3/4 max-w-xs bg-purple-400 h-full p-6 shadow-lg flex flex-col space-y-6"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="self-end text-white text-2xl hover:text-gray-200 transition"
+            >
+              &times;
+            </button>
+
+            {/* Links */}
+            <Link
+              href="/"
+              className="block text-white text-lg font-medium hover:text-gray-200 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/boards"
+              className="block text-white text-lg font-medium hover:text-gray-200 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              Dashboard
+            </Link>
+
+            {!user ? (
+              <>
+                <Link
+                  href="/login"
+                  className="block bg-white text-purple-500 px-4 py-2 rounded font-medium text-center hover:bg-gray-100 transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="block bg-white text-purple-500 px-4 py-2 rounded font-medium text-center hover:bg-gray-100 transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Signup
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="border-t border-white pt-4 space-y-2">
+                  <p className="text-white font-semibold">{user.name}</p>
+                  <p className="text-white text-sm">{user.email}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                  }}
+                  className="w-full bg-white text-purple-500 px-4 py-2 rounded font-medium hover:bg-gray-100 transition"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </header>
